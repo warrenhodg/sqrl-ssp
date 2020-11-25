@@ -1,5 +1,5 @@
 # sqrl-ssp #
-SQRL is a identiy managment system that is meant to replace usernames and passwords for online
+SQRL is an identity managment system that is meant to replace usernames and passwords for online
 account authentication. It requires a user to have a SQRL client that securely manages their 
 identity. The server interacts with the SQRL client to authenticate a user (similar but more 
 secure than a username/password challenge). Once a user's identity is established, a session
@@ -23,15 +23,15 @@ of configuration that must be provided to integrate SQRL into broader user manag
 
 ### Authenticator ###
 The basis of the SSP API is to manage SQRL identities. The goal of this library is to manage these identities and allow
-for loosly coupling an identity to a "user". This is similar in concept to a user having a username and password which may be
-changed for a given user. A SQRL idenity can be associated with a user, and at a later time that identity may be disabled or
+for loosely coupling an identity to a "user". This is similar in concept to a user having a username and password which may be
+changed for a given user. A SQRL identity can be associated with a user, and at a later time that identity may be disabled or
 removed from a user, or a new identity may be associated with that user. These actions are supported by the ssp.Authenticator
 interface.
 
 ### Hoard and AuthStore ##
 The SSP API has requirements for storage exposed by the Hoard and AuthStore interfaces. Because an extended pun is always fun, a Hoard stores Nuts.
-Nuts are SQRL's cryptographic nonces. A Hoard also has stores pending auth information associated with the Nut. These are ephemperal and have an
-expiration so are best stored in a in-memory store like Redis or memcached. The AuthStore saves the SQRL identity information and should be a durable database like PostgreSQL or MariaDB. Both are interfaces so any storage should be able to be plugged in. The ssp package provides map-backed implementations for both which are *NOT* recommended for production use. 
+Nuts are SQRL's cryptographic nonces. A Hoard also has stores pending auth information associated with the Nut. These are ephemeral and have an
+expiration, so are best stored in an in-memory store like Redis or Memcached. The AuthStore saves the SQRL identity information and should be a durable database like PostgreSQL or MariaDB. Both are interfaces so any storage should be able to be plugged in. The ssp package provides map-backed implementations for both which are *NOT* recommended for production use. 
 
 I've written a Redis-backed Hoard implementation at [github.com/smw1218/sqrl-redishoard](https://github.com/smw1218/sqrl-redishoard)
 I've written a GORM-backed (GORM supports several different database backends) AuthStore implementation at [github.com/smw1218/sqrl-gormauthstore](https://github.com/smw1218/sqrl-gormauthstore)
@@ -44,8 +44,8 @@ a globally consistent counter like a PostgreSQL sequence.) The ssp package provi
 reccommend using ssp.RandomTree if you're using multiple servers.
 
 ## API ##
-This package only implements the public parts of the SSP API intentionally. The callbacks provided by the Authenticator interface
-should allow integration with any auth system; includig embedding in a larger existing auth service or aloowing the SSP service to
+This package intentionally only implements the public parts of the SSP API. The callbacks provided by the Authenticator interface
+should allow integration with any auth system. This includes embedding it in a larger existing auth service, or allowing it to
 stand alone and send requests to another authorization and/or user management service.
 
 I've also made some convenient additions to the standard API.
